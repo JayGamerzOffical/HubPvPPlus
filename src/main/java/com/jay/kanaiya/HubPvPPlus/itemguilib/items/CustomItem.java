@@ -1,86 +1,124 @@
-package com.jay.kanaiya.HubPvPPlus.itemguilib.items;
+/*     */ package com.jay.kanaiya.HubPvPPlus.itemguilib.items;
+/*     */ 
+/*     */ import java.util.ArrayList;
+/*     */ import java.util.Arrays;
+/*     */ import java.util.List;
+/*     */ import java.util.function.Consumer;
+/*     */ import com.jay.kanaiya.HubPvPPlus.itemguilib.ItemGuiLib;
+import org.bukkit.Bukkit;
+/*     */ import org.bukkit.enchantments.Enchantment;
+/*     */ import org.bukkit.event.EventHandler;
+/*     */ import org.bukkit.event.Listener;
+/*     */ import org.bukkit.event.block.Action;
+/*     */ import org.bukkit.event.player.PlayerInteractEvent;
+/*     */ import org.bukkit.inventory.ItemFlag;
+/*     */ import org.bukkit.inventory.ItemStack;
+/*     */ import org.bukkit.inventory.meta.ItemMeta;
+/*     */ import org.bukkit.plugin.Plugin;
+/*     */ 
+/*     */ public class CustomItem
+/*     */   implements Listener {
+/*     */   private final ItemStack itemStack;
+/*     */   private Consumer<PlayerInteractEvent> consumer;
+/*     */   
+/*     */   public CustomItem(ItemStack itemStack, Consumer<PlayerInteractEvent> consumer) {
+/*  25 */     this.itemStack = itemStack;
+/*  26 */     this.consumer = consumer;
+/*     */     
+/*  28 */     Bukkit.getPluginManager().registerEvents(this, (Plugin) ItemGuiLib.getPluginInstance());
+/*     */   }
+/*     */   
+/*     */   public CustomItem(ItemStack itemStack) {
+/*  32 */     this.itemStack = itemStack;
+/*     */   }
+/*     */   
+/*     */   public ItemStack getItemStack() {
+/*  36 */     return this.itemStack;
+/*     */   }
+/*     */   
+/*     */   @EventHandler
+/*     */   public void onInteract(PlayerInteractEvent e) {
+/*  41 */     if (e.getPlayer().getInventory().getItemInHand().isSimilar(this.itemStack) && (
+/*  42 */       e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)) {
+/*  43 */       e.setCancelled(true);
+/*     */       
+/*  45 */       this.consumer.accept(e);
+/*     */     } 
+/*     */   }
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */   
+/*     */   public CustomItem addLore(String... strings) {
+/*  56 */     addLore(Arrays.asList(strings));
+/*  57 */     return this;
+/*     */   }
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */   
+/*     */   public CustomItem addLore(List<String> strings) {
+/*  66 */     ItemMeta m = getItemStack().getItemMeta();
+/*  67 */     List<String> lore = (m.getLore() != null) ? m.getLore() : new ArrayList<>();
+/*     */     
+/*  69 */     lore.addAll(strings);
+/*  70 */     m.setLore(lore);
+/*  71 */     getItemStack().setItemMeta(m);
+/*  72 */     return this;
+/*     */   }
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */   
+/*     */   public CustomItem setName(String name) {
+/*  81 */     ItemMeta meta = getItemStack().getItemMeta();
+/*  82 */     meta.setDisplayName(name);
+/*  83 */     getItemStack().setItemMeta(meta);
+/*  84 */     return this;
+/*     */   }
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */   
+/*     */   public CustomItem addFlags(ItemFlag... flags) {
+/*  93 */     ItemMeta meta = getItemStack().getItemMeta();
+/*  94 */     meta.addItemFlags(flags);
+/*  95 */     getItemStack().setItemMeta(meta);
+/*  96 */     return this;
+/*     */   }
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */   
+/*     */   public CustomItem addEnchant(Enchantment enchant, int level) {
+/* 106 */     ItemMeta meta = getItemStack().getItemMeta();
+/* 107 */     meta.addEnchant(enchant, level, false);
+/* 108 */     getItemStack().setItemMeta(meta);
+/* 109 */     return this;
+/*     */   }
+/*     */   
+/*     */   public CustomItem setUnbreakable(boolean unbreakable) {
+/* 113 */     ItemMeta meta = getItemStack().getItemMeta();
+/* 114 */     meta.setUnbreakable(unbreakable);
+/* 115 */     getItemStack().setItemMeta(meta);
+/* 116 */     return this;
+/*     */   }
+/*     */ }
 
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class CustomItem {
-    private final ItemStack itemStack;
-
-    public CustomItem(ItemStack itemStack) {
-        this.itemStack = itemStack;
-    }
-
-    public ItemStack getItemStack() {
-        return itemStack;
-    }
-
-    /**
-     * Set the display name of the item.
-     *
-     * @param name The new display name.
-     */
-    public void setName(String name) {
-        ItemMeta meta = itemStack.getItemMeta();
-        if (meta != null) {
-            meta.setDisplayName(name);
-            itemStack.setItemMeta(meta);
-        }
-    }
-
-    /**
-     * Add lore to the item.
-     *
-     * @param lore The list of lore strings to add.
-     */
-    public void addLore(List<String> lore) {
-        ItemMeta meta = itemStack.getItemMeta();
-        if (meta != null) {
-            List<String> existingLore = meta.getLore();
-            if (existingLore == null) {
-                existingLore = new ArrayList<>();
-            }
-            existingLore.addAll(lore);
-            meta.setLore(existingLore);
-            itemStack.setItemMeta(meta);
-        }
-    }
-
-    /**
-     * Add enchantment to the item.
-     *
-     * @param enchantment The enchantment to add.
-     * @param level       The level of the enchantment.
-     */
-    public void addEnchantment(org.bukkit.enchantments.Enchantment enchantment, int level) {
-        itemStack.addEnchantment(enchantment, level);
-    }
-
-    /**
-     * Adds ItemFlags to the item to hide certain attributes (e.g., enchantments).
-     *
-     * @param flags The flags to add to the item.
-     */
-    public void addFlags(org.bukkit.inventory.ItemFlag... flags) {
-        ItemMeta meta = itemStack.getItemMeta();
-        if (meta != null) {
-            meta.addItemFlags(flags);
-            itemStack.setItemMeta(meta);
-        }
-    }
-
-    /**
-     * Make the item unbreakable.
-     *
-     * @param unbreakable Whether the item is unbreakable.
-     */
-    public void setUnbreakable(boolean unbreakable) {
-        ItemMeta meta = itemStack.getItemMeta();
-        if (meta != null) {
-            meta.setUnbreakable(unbreakable);
-            itemStack.setItemMeta(meta);
-        }
-    }
-}
+/* Location:              D:\JayRaj\BitDownloads\HubPvP-1.4.2.jar!\me\quared\itemguilib\items\CustomItem.class
+ * Java compiler version: 17 (61.0)
+ * JD-Core Version:       1.1.3
+ */

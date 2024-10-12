@@ -15,3 +15,8 @@
 /*    */   }
 /*    */ }
 
+
+/* Location:              D:\JayRaj\BitDownloads\HubPvP-1.4.2.jar!\me\quared\itemguilib\ItemGuiLib.class
+ * Java compiler version: 17 (61.0)
+ * JD-Core Version:       1.1.3
+ */

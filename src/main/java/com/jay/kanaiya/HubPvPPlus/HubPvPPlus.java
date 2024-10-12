@@ -99,16 +99,17 @@ public final class HubPvPPlus extends JavaPlugin {
 	}
 	private void logPluginStartup() {
 		Logger logger = getLogger();
+
 		logger.info("========================================");
-		logger.info("  SSSSS  W     W   AAAAA   GGGGG  GGGGG  EEEEE  RRRR   SSSSS ");
-		logger.info(" S       W     W  A     A G       G      E      R   R S      ");
-		logger.info("  SSSS   W  W  W  AAAAAAA G  GGG  G  GGG  EEEEE  RRRR   SSSS  ");
-		logger.info("      S  W W W W  A     A G     G G     G E      R R        S ");
-		logger.info("  SSSSS   W   W   A     A  GGGGG   GGGGG  EEEEE  R  RR  SSSSS ");
+		logger.info("   JJJJJ   AAAAA  Y   Y     GGGGG  AAAAA  M   M  EEEEE  RRRR   ZZZZZ");
+		logger.info("     J    A     A  Y Y     G       A     A M M M  E      R   R     Z ");
+		logger.info("     J    AAAAAAA   Y      G  GGG  AAAAAAA M M M  EEEEE  RRRR     Z  ");
+		logger.info("  J  J    A     A   Y      G     G A     A M   M  E      R R     Z   ");
+		logger.info("   JJ     A     A   Y       GGGGG  A     A M   M  EEEEE  R  RR  ZZZZZ");
 		logger.info("========================================");
-		logger.info("Plugin Name: HubPvP Plus");
+		logger.info("Plugin Name: HubPvPPlus");
 		logger.info("Version: " + getDescription().getVersion());
-		logger.info("Author: " + "Jay Kanaiya");
+		logger.info("Author: " + "Jay Gamerz");
 		logger.info("Plugin is Successfully enabled!");
 	}
 	public PvPManager pvpManager() {

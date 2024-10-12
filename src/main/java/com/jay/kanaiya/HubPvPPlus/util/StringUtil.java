@@ -26,7 +26,7 @@ public final class StringUtil {
 		StringBuilder buffer = new StringBuilder();
 
 		while (matcher.find()) {
-			matcher.appendReplacement(buffer, ChatColor.of(matcher.group(1)).toString());
+			matcher.appendReplacement(buffer, ChatColor.valueOf(matcher.group(1)).toString());
 		}
 
 		return matcher.appendTail(buffer).toString();
