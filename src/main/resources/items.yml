@@ -1,0 +1,25 @@
+items:
+  weapon:
+    slot: 5 # Sword slot inside the player's inventory
+    material: NETHERITE_SWORD # Item to use as the sword
+    name: '&cPvP Sword &7[Hold To Fight]' # Name of the item
+    lore: # Item description, shown when hovering over in inventory
+      - ""
+    enchantments:
+      - "sharpness:2"
+  helmet:
+    material: NETHERITE_HELMET # Item to use as the helmet
+    enchantments:
+      - "protection:3"
+  chestplate:
+    material: NETHERITE_CHESTPLATE # Item to use as the chestplate
+    enchantments:
+      - "protection:3"
+  leggings:
+    material: NETHERITE_LEGGINGS # Item to use as the leggings
+    enchantments:
+      - "protection:3"
+  boots:
+    material: NETHERITE_BOOTS # Item to use as the boots
+    enchantments:
+      - "protection:3"
