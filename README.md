@@ -40,9 +40,11 @@ Modify the config.yml file to customize your settings as desired.
 Use /hpp to reload the plugin after making changes to the configuration.
 
 # ⚙️ Configuration
-
 The plugin's configuration file (config.yml) allows you to customize all messages, PvP toggling mechanics, and more. After making changes, use /hpp to reload the configuration without restarting the server.
 
+# **For Example**
+
+![HubPvpPlusImage.png](HubPvpPlusImage.png)
 # 🔗 Download
 
 Get HubPvPPlus from:
