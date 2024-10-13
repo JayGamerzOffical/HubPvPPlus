@@ -42,12 +42,12 @@ public class PvPManager {
 	}
 
 	// Load the items.yml configuration
-	private void loadItemsConfig() {
+	public void loadItemsConfig() {
 		File itemsFile = new File(HubPvPPlus.instance().getDataFolder(), "items.yml");
 		if (!itemsFile.exists()) {
 			HubPvPPlus.instance().saveResource("items.yml", false); // Save the default items.yml if not present
 		}
-		itemsConfig = YamlConfiguration.loadConfiguration(itemsFile);
+		itemsConfig = YamlConfiguration.loadConfiguration(itemsFile); // Load items.yml into itemsConfig
 	}
 
 	// Load items from the items.yml configuration

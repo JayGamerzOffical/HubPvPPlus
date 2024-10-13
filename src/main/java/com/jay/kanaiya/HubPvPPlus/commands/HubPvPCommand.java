@@ -20,25 +20,20 @@ public class HubPvPCommand implements CommandExecutor, TabCompleter {
 		if (args.length == 1) {
 			if (args[0].equalsIgnoreCase("reload")) {
 				HubPvPPlus plugin = HubPvPPlus.instance();
-				plugin.reloadConfig();
-				File itemsFile = new File(plugin.getDataFolder(), "items.yml");
-				if (itemsFile.exists()) {
-					plugin.getConfig().set("items", null);
-					plugin.saveConfig();
-					plugin.getConfig().options().copyDefaults(true);
-					plugin.saveDefaultConfig();
-					plugin.pvpManager().loadItems();
-					sender.sendMessage(StringUtil.colorize(plugin.getConfig().getString("lang.reloaded")));
-				} else {
-					sender.sendMessage(ChatColor.RED + "items.yml file not found!");
-				}
+				plugin.reloadConfig(); // Reload the main config
+
+				// Load items from items.yml
+				plugin.pvpManager().loadItemsConfig(); // Ensure items are loaded properly
+				plugin.pvpManager().loadItems(); // Reload the items from items.yml
+
+				sender.sendMessage(StringUtil.colorize(plugin.getConfig().getString("lang.reloaded")));
 			} else {
 				sender.sendMessage(ChatColor.RED + "Invalid arguments. Use: /" + label + " <reload>");
 			}
 		} else {
 			sender.sendMessage(ChatColor.RED + "Invalid usage. Use: /" + label + " <args>");
 		}
-		return false;
+		return true; // Return true if the command was successful
 	}
 
 	@Override
