@@ -5,8 +5,6 @@ import com.jay.kanaiya.HubPvPPlus.listeners.*;
 import com.jay.kanaiya.HubPvPPlus.util.StringUtil;
 import com.jay.kanaiya.HubPvPPlus.core.PvPManager;
 import com.jay.kanaiya.HubPvPPlus.itemguilib.ItemGuiLib;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,9 +19,7 @@ public final class HubPvPPlus extends JavaPlugin {
 	private PvPManager pvpManager;
 
 
-    private FileConfiguration itemsConfig;
-
-	public static HubPvPPlus instance() {
+    public static HubPvPPlus instance() {
 		return instance;
 	}
 
@@ -71,8 +67,7 @@ public final class HubPvPPlus extends JavaPlugin {
 		if (!itemsFile.exists()) {
 			saveResource("items.yml", false);
 		}
-		itemsConfig = YamlConfiguration.loadConfiguration(itemsFile);
-	}
+    }
 
 	private void logPluginStartup() {
 		Logger logger = getLogger();
