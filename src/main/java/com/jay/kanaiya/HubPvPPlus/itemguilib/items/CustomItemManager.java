@@ -10,7 +10,7 @@ public class CustomItemManager {
     private final Map<String, CustomItem> customItems;
 
     private CustomItemManager() {
-        this.customItems = new HashMap<>();
+        customItems = new HashMap<>();
     }
 
     public static CustomItemManager get() {
@@ -18,48 +18,36 @@ public class CustomItemManager {
             instance = new CustomItemManager();
         }
         return instance;
-    }
-
-    /**
-     * Create and register a custom item with a unique identifier.
-     *
-     * @param itemStack ItemStack to be used for creating the custom item.
-     * @return CustomItem instance created.
-     */
-    public CustomItem createCustomItem(ItemStack itemStack) {
+    } public CustomItem createCustomItem(ItemStack itemStack) {
         CustomItem customItem = new CustomItem(itemStack);
-        String key = generateUniqueKey(customItem);
-        customItems.put(key, customItem);
+        // Register the custom item using the item type or a custom name (if applicable)
+        customItems.put(itemStack.getType().toString(), customItem);
         return customItem;
     }
 
     /**
-     * Get a custom item by its identifier.
+     * Retrieves a custom item by material name.
      *
-     * @param key The identifier of the custom item.
-     * @return The CustomItem if found, null otherwise.
+     * @param materialName The name of the material (e.g., "DIAMOND_SWORD").
+     * @return The CustomItem associated with that material, or null if it doesn't exist.
      */
-    public CustomItem getCustomItem(String key) {
-        return customItems.get(key);
+    public CustomItem getCustomItem(String materialName) {
+        return customItems.get(materialName);
     }
 
     /**
-     * Remove a custom item by its identifier.
+     * Unregisters a custom item by material name.
      *
-     * @param key The identifier of the custom item.
+     * @param materialName The name of the material to remove.
      */
-    public void removeCustomItem(String key) {
-        customItems.remove(key);
+    public void removeCustomItem(String materialName) {
+        customItems.remove(materialName);
     }
 
     /**
-     * Generate a unique key for each custom item based on the item properties.
-     *
-     * @param customItem Custom item to generate the key for.
-     * @return Generated unique key.
+     * Clears all custom items.
      */
-    private String generateUniqueKey(CustomItem customItem) {
-        // You can customize this to generate unique keys based on the item meta or stack information
-        return customItem.getItemStack().getType().toString() + "_" + customItems.size();
+    public void clearCustomItems() {
+        customItems.clear();
     }
 }
