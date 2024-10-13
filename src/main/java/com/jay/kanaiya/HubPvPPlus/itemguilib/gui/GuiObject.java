@@ -6,6 +6,7 @@
  import java.util.Map;
  import java.util.function.Consumer;
  import com.jay.kanaiya.HubPvPPlus.itemguilib.ItemGuiLib;
+ import lombok.Setter;
  import org.bukkit.Bukkit;
  import org.bukkit.ChatColor;
  import org.bukkit.Material;
@@ -21,56 +22,21 @@
  
  public class GuiObject implements Metadatable, Listener {
    private final Map<String, List<MetadataValue>> values = new HashMap<>(); private final ItemStack stack;
+   @Setter
    private Gui owningGui;
    private final Consumer<InventoryClickEvent> consumer;
-   
-   public GuiObject(Material material, int amount) {
-     this(new ItemStack(material, amount));
-   }
-   
-   public GuiObject(Material material) {
-    this(new ItemStack(material));
-   }
-   
-   public GuiObject(Material material, int amount, short durability) {
-     this(new ItemStack(material, amount, durability));
-   }
-   
-   public GuiObject(Material material, short durability) {
-     this(new ItemStack(material, 1, durability));
-   }
-   
-   public GuiObject(Material material, int amount, Consumer<InventoryClickEvent> consumer) {
-     this(material, amount, (short)0, consumer);
-   }
+
    
    public GuiObject(Material material, int amount, short durability, Consumer<InventoryClickEvent> consumer) {
      this(new ItemStack(material, amount, durability), consumer);
    }
-   
-   public GuiObject(Material material, Consumer<InventoryClickEvent> consumer) {
-     this(new ItemStack(material), consumer);
-   }
-   
-   public GuiObject(Material material, short durability, Consumer<InventoryClickEvent> consumer) {
-     this(material, 1, durability, consumer);
-   }
-   
-   public GuiObject(ItemStack stack) {
-     this(stack, e -> {
-         
-         });
-   } public GuiObject(ItemStack stack, Consumer<InventoryClickEvent> consumer) {
+    public GuiObject(ItemStack stack, Consumer<InventoryClickEvent> consumer) {
      this.stack = stack;
      Bukkit.getPluginManager().registerEvents(this, (Plugin)ItemGuiLib.getPluginInstance());
      this.consumer = consumer;
    }
-   
-   public void setOwningGui(Gui gui) {
-     this.owningGui = gui;
-   }
-   
-   public ItemStack getItem() {return this.stack;
+
+     public ItemStack getItem() {return this.stack;
    }
  
    
@@ -79,38 +45,13 @@
      values.add(metadataValue);
      this.values.put(s, values);
    }
-   
-   public GuiObject addLore(String... s) {
-    addLore(Arrays.asList(s));
-    return this;
-   }
-   
-   public GuiObject addLore(List<String> strings) {
-     ItemMeta m = getItem().getItemMeta();
-    List<String> lore = (m.getLore() != null) ? m.getLore() : new ArrayList<>();
-     
-     lore.addAll(strings);
-     m.setLore(lore);
-     getItem().setItemMeta(m);
-     return this;
-   }
- 
-   
    public GuiObject setName(String name) {
      ItemMeta meta = getItem().getItemMeta();
      meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
      getItem().setItemMeta(meta);
      return this;
    }
-   
-   public GuiObject addFlags(ItemFlag... flags) {
-    ItemMeta meta = getItem().getItemMeta();
-    meta.addItemFlags(flags);
-     getItem().setItemMeta(meta);
-     return this;
-   }
- 
-   
+
    public List<MetadataValue> getMetadata(String s) {
     return this.values.get(s);
    }

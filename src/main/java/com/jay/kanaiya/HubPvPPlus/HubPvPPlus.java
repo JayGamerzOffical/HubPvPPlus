@@ -11,7 +11,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -21,11 +20,8 @@ public final class HubPvPPlus extends JavaPlugin {
 
 	private PvPManager pvpManager;
 
-	private File messagesFile;
-	private FileConfiguration messagesConfig;
 
-	private File itemsFile;
-	private FileConfiguration itemsConfig;
+    private FileConfiguration itemsConfig;
 
 	public static HubPvPPlus instance() {
 		return instance;
@@ -71,28 +67,11 @@ public final class HubPvPPlus extends JavaPlugin {
 
 	// Load and save methods for items.yml
 	public void loadItemsFile() {
-		itemsFile = new File(getDataFolder(), "items.yml");
+        File itemsFile = new File(getDataFolder(), "items.yml");
 		if (!itemsFile.exists()) {
 			saveResource("items.yml", false);
 		}
 		itemsConfig = YamlConfiguration.loadConfiguration(itemsFile);
-	}
-
-	public FileConfiguration getItemsConfig() {
-		if (itemsConfig == null) {
-			loadItemsFile();
-		}
-		return itemsConfig;
-	}
-
-	public void saveItemsFile() {
-		if (itemsConfig == null || itemsFile == null) return;
-		try {
-			itemsConfig.save(itemsFile);
-		} catch (IOException e) {
-			getLogger().severe("Could not save items.yml file!");
-			e.printStackTrace();
-		}
 	}
 
 	private void logPluginStartup() {

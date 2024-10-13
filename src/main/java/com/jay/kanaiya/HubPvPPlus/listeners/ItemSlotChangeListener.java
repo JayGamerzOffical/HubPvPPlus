@@ -42,7 +42,7 @@ public class ItemSlotChangeListener implements Listener {
 
 					public void run() {
 						time--;
-						if (pvpManager.getPlayerState(p) != PvPState.ENABLING || !held.isSimilar(pvpManager.getWeapon().getItemStack())) {
+						if (pvpManager.getPlayerState(p) != PvPState.ENABLING || !Objects.requireNonNull(held).isSimilar(pvpManager.getWeapon().getItemStack())) {
 							pvpManager.removeTimer(p);
 							cancel();
 						} else if (time == 0) {
@@ -52,7 +52,7 @@ public class ItemSlotChangeListener implements Listener {
 							pvpManager.removeTimer(p);
 							cancel();
 						} else {
-							p.sendMessage(StringUtil.colorize(instance.getConfig().getString("lang.pvp-enabling").replace("%time%", Integer.toString(time))));
+							p.sendMessage(StringUtil.colorize(Objects.requireNonNull(instance.getConfig().getString("lang.pvp-enabling")).replace("%time%", Integer.toString(time))));
 							p.playSound(p.getLocation(), "minecraft:block.note_block.bass", 2.0f, 1.0f);
 						}
 					}
@@ -83,7 +83,7 @@ public class ItemSlotChangeListener implements Listener {
 						pvpManager.removeTimer(p);
 						cancel();
 					} else {
-						p.sendMessage(StringUtil.colorize(instance.getConfig().getString("lang.pvp-disabling").replace("%time%", Integer.toString(time))));
+						p.sendMessage(StringUtil.colorize(Objects.requireNonNull(instance.getConfig().getString("lang.pvp-disabling")).replace("%time%", Integer.toString(time))));
 						p.playSound(p.getLocation(), "minecraft:block.note_block.bass", 2.0f, 1.0f);
 					}
 				}

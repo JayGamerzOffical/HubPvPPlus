@@ -25,29 +25,4 @@ public class CustomItemManager {
         return customItem;
     }
 
-    /**
-     * Retrieves a custom item by material name.
-     *
-     * @param materialName The name of the material (e.g., "DIAMOND_SWORD").
-     * @return The CustomItem associated with that material, or null if it doesn't exist.
-     */
-    public CustomItem getCustomItem(String materialName) {
-        return customItems.get(materialName);
-    }
-
-    /**
-     * Unregisters a custom item by material name.
-     *
-     * @param materialName The name of the material to remove.
-     */
-    public void removeCustomItem(String materialName) {
-        customItems.remove(materialName);
-    }
-
-    /**
-     * Clears all custom items.
-     */
-    public void clearCustomItems() {
-        customItems.clear();
-    }
 }

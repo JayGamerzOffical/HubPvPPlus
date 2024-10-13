@@ -9,6 +9,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+import java.util.Objects;
+
 public class DamageListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH) // WORK ON WHITELIST/BLACKLISTED WORLDS
@@ -18,8 +20,7 @@ public class DamageListener implements Listener {
 		if (e.getEntity() instanceof Player damager && e.getDamager() instanceof Player damaged) {
 			World world = damager.getLocation().getWorld();
 
-			if (instance.getConfig().getStringList("disabled-worlds").contains(world.getName())) e.setCancelled(true);
-
+			if (instance.getConfig().getStringList("disabled-worlds").contains(Objects.requireNonNull(world).getName())) e.setCancelled(true);
 			e.setCancelled(!pvpManager.isInPvP(damager) || !pvpManager.isInPvP(damaged));
 		}
 	}

@@ -3,14 +3,10 @@ package com.jay.kanaiya.HubPvPPlus.listeners;
 import com.jay.kanaiya.HubPvPPlus.HubPvPPlus;
 import com.jay.kanaiya.HubPvPPlus.core.PvPManager;
 import com.jay.kanaiya.HubPvPPlus.util.StringUtil;
-import org.bukkit.Location;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class DeathListener implements Listener {
 
