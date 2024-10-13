@@ -153,9 +153,32 @@ public class PvPManager {
 	public PvPState getPlayerState(Player p) {
 		return playerPvpStates.get(p);
 	}
-
 	public void giveWeapon(Player p) {
-		p.getInventory().setItem(itemsConfig.getInt("items.weapon.slot") - 1, getWeapon().getItemStack());
+		// Get the weapon item stack to be given
+		ItemStack newWeapon = getWeapon().getItemStack();
+
+		// Get the weapon slot from the configuration
+		int weaponSlot = itemsConfig.getInt("items.weapon.slot") - 1;
+
+		// Get the current item in the specified slot
+		ItemStack currentItem = p.getInventory().getItem(weaponSlot);
+
+		// Check if the slot is empty
+		if (currentItem == null || currentItem.getType() == Material.AIR) {
+			// Slot is free, set the new weapon
+			p.getInventory().setItem(weaponSlot, newWeapon);
+			return;
+		}
+
+		// Check if the current item is the same as the new weapon
+		if (currentItem.isSimilar(newWeapon)) {
+			// Do nothing since the same weapon is already equipped
+			return;
+		} else {
+			// If current item is different, send a message to the player
+			p.sendMessage("Please change the item in your weapon slot from plugins/HubPvPPlus/items.yml.");
+			return;
+		}
 	}
 
 	public void putTimer(Player p, BukkitRunnable timerTask) {

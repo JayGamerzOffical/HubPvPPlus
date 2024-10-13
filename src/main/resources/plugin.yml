@@ -3,6 +3,7 @@ version: 1.7
 main: com.jay.kanaiya.HubPvPPlus.HubPvPPlus
 api-version: 1.13
 prefix: HubPvPPlus
+soft-depend: PhoenixLobby
 authors: [ jayGamerz, Kanaiya ]
 description: HubPvPPlus plugin - A Magic sword that players can PvP each other with in the hub!
 commands:
