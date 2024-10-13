@@ -1,7 +1,7 @@
 name: HubPvPPlus
-version: 1.4
+version: 1.7
 main: com.jay.kanaiya.HubPvPPlus.HubPvPPlus
-api-version: 1.20
+api-version: 1.13
 prefix: HubPvPPlus
 authors: [ jayGamerz, Kanaiya ]
 description: HubPvPPlus plugin - A Magic sword that players can PvP each other with in the hub!
