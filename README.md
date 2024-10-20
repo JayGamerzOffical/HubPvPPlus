@@ -1,9 +1,7 @@
 # **HubPvPPlus**
-
-![HubPvP Plus.png](HubPvP%20Plus.png)
-
+![hub pvp plus free download](https://cdn.modrinth.com/data/cached_images/2493e12494fcca1f7f9401576ff7b889a6362b12_0.webp)
 ### HubPvPPlus is a light weight, customizable plugin designed to enhance the hub experience of Minecraft servers by enabling PvP combat using a special magic sword.
-#### Created by **[Jay Gamerz](https://www.fiverr.com/jay_gamerz)** and **[Kanaiya](https://www.youtube.com/@kanhaiyaswagger.)**, this plugin allows players to easily toggle PvP in the lobby or Hub.
+#### Created by **Contact For Hire [JAY GAMERZ](https://www.fiverr.com/jay_gamerz) and [KANAIYA](https://www.youtube.com/@kanhaiyaswagger.)**, this plugin allows players to easily toggle PvP in the lobby or Hub.
 
 # 📜 Features
 
@@ -32,7 +30,15 @@ Default: true
 # 🛑 Version Support
 
 HubPvPPlus natively supports Minecraftrom 1.8 to 1.21  While it may work on earlier versions, support is not guaranteed for them.
+# 📽️ YouTube Channel
+### [Kanaiya](https://www.youtube.com/@kanhaiyaswagger.)
+# <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/yXALpKfq6hk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
+# SCREENSHOTS
+
+![screenshot](https://i.postimg.cc/sgKBYm69/Screenshot-2024-10-14-184326.png)
+![screenshot](https://i.postimg.cc/MHXtwXng/image.png)
+#
 # 📥 Installation
 
 Download the plugin from SpigotMC or the GitHub releases.
@@ -48,16 +54,17 @@ The plugin's configuration file (config.yml) allows you to customize all message
 To configure the `HubPvP+` plugin, follow these steps:
 
 1. **Open the Config File:**
-    - Locate the `config.yml` file within the plugin directory.
+   - Locate the `config.yml` file within the plugin directory.
 
 2. **Edit the Configuration:**
-    - Modify the config file as follows:
+   - Modify the config file as follows:
 
 ```yaml
 disabled-worlds:
   - world_nopvp
 enable-cooldown: 4
 disable-cooldown: 4
+sound-effects: true
 lang:
   pvp-enabled: '&e❤ &6HubPvP+ has been &aActivated&7!'
   pvp-enabling: '&e❤ &6HubPVP+ will activate in &e%time%&7.'
@@ -66,8 +73,8 @@ lang:
   reloaded: '&aSuccessfully HubPvP+ config reloaded!'
   disabled-in-world: "&cYou may not use this in this world!"
   broadcast_msg: "&6[] &e%victim%"
-Save and Reload:
 ```
+Save and Reload:
 `Items.yml`
 ```yaml
 items:
@@ -99,7 +106,7 @@ items:
 This keeps your YAML configuration section separate and clear, while smoothly transitioning to the rest of your README content. 📜🛠️
 # **For Example**
 
-![HubPvpPlusImage.png](HubPvpPlusImage.png)
+![Demo Hub Pvp Plus Lobby Minecraft Plugin](https://cdn.modrinth.com/data/cached_images/f72ac64302571f65348e257c8103d619c93c03c1.png)
 # 🔗 Download
 
 Get HubPvPPlus from:
@@ -108,6 +115,9 @@ Get HubPvPPlus from:
 
 SpigotMC HubPvPPlus
 GitHub Releases
+
+# HubPvP Plus plugin logo
+![plugin logo](https://cdn.modrinth.com/data/cached_images/14e991d4674937acb073bc89c37cb581448d14f1_0.webp)
 
 # 🧑‍💻 Authors
 #### Developed by:
