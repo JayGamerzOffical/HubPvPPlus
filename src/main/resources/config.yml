@@ -3,7 +3,7 @@ disabled-worlds:
 
 enable-cooldown: 4
 disable-cooldown: 4
-
+sound-effects: true
 lang:
   pvp-enabled: '&e❤ &6HubPvP+ has been &aActivated&7!'
   pvp-enabling: '&e❤ &6HubPVP+ will activate in &e%time%&7.'

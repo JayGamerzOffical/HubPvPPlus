@@ -24,15 +24,19 @@ public class ItemSlotChangeListener implements Listener {
 
 		if (!p.hasPermission("hpp.use")) return;
 
+		if (instance.getConfig().getStringList("disabled-worlds").contains(p.getWorld().getName())) {
+			// If the player is in a disabled world, remove the weapon
+			if (held != null && held.isSimilar(pvpManager.getWeapon().getItemStack())) {
+				p.getInventory().setItem(e.getNewSlot(), null);
+				p.sendMessage(StringUtil.colorize(instance.getConfig().getString("lang.disabled-in-world")));
+				return;
+			}
+		}
+
 		if (Objects.equals(held, pvpManager.getWeapon().getItemStack())) {
 			// PvP enabling logic
 			if (pvpManager.getPlayerState(p) == PvPState.DISABLING) pvpManager.setPlayerState(p, PvPState.ON);
 			if (pvpManager.getPlayerState(p) == PvPState.ENABLING) return;
-
-			if (instance.getConfig().getStringList("disabled-worlds").contains(p.getWorld().getName())) {
-				p.sendMessage(StringUtil.colorize(instance.getConfig().getString("lang.disabled-in-world")));
-				return;
-			}
 
 			if (!pvpManager.isInPvP(p)) {
 				pvpManager.setPlayerState(p, PvPState.ENABLING);
@@ -47,13 +51,17 @@ public class ItemSlotChangeListener implements Listener {
 							cancel();
 						} else if (time == 0) {
 							pvpManager.enablePvP(p);
-							p.playSound(p.getLocation(), "minecraft:entity.enderman.teleport", 1.0f, 1.0f);
+							if (instance.getConfig().getBoolean("sound-effects")) {
+								p.playSound(p.getLocation(), "minecraft:entity.enderman.teleport", 1.0f, 1.0f);
+							}
 
 							pvpManager.removeTimer(p);
 							cancel();
 						} else {
 							p.sendMessage(StringUtil.colorize(Objects.requireNonNull(instance.getConfig().getString("lang.pvp-enabling")).replace("%time%", Integer.toString(time))));
-							p.playSound(p.getLocation(), "minecraft:block.note_block.bass", 2.0f, 1.0f);
+							if (instance.getConfig().getBoolean("sound-effects")) {
+								p.playSound(p.getLocation(), "minecraft:block.note_block.bass", 2.0f, 1.0f);
+							}
 						}
 					}
 				};
@@ -74,17 +82,23 @@ public class ItemSlotChangeListener implements Listener {
 				public void run() {
 					time--;
 					if (pvpManager.getPlayerState(p) != PvPState.DISABLING || held != null && held.isSimilar(pvpManager.getWeapon().getItemStack())) {
-						p.playSound(p.getLocation(), "minecraft:block.note_block.bass", 1.0f, 1.0f);
+						if (instance.getConfig().getBoolean("sound-effects")) {
+							p.playSound(p.getLocation(), "minecraft:block.note_block.bass", 1.0f, 1.0f);
+						}
 						pvpManager.removeTimer(p);
 						cancel();
 					} else if (time == 0) {
 						pvpManager.disablePvP(p);
-						p.playSound(p.getLocation(), "minecraft:entity.enderman.teleport", 1.0f, 1.0f);
+						if (instance.getConfig().getBoolean("sound-effects")) {
+							p.playSound(p.getLocation(), "minecraft:entity.enderman.teleport", 1.0f, 1.0f);
+						}
 						pvpManager.removeTimer(p);
 						cancel();
 					} else {
 						p.sendMessage(StringUtil.colorize(Objects.requireNonNull(instance.getConfig().getString("lang.pvp-disabling")).replace("%time%", Integer.toString(time))));
-						p.playSound(p.getLocation(), "minecraft:block.note_block.bass", 2.0f, 1.0f);
+						if (instance.getConfig().getBoolean("sound-effects")) {
+							p.playSound(p.getLocation(), "minecraft:block.note_block.bass", 2.0f, 1.0f);
+						}
 					}
 				}
 			};

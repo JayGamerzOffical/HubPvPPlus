@@ -6,7 +6,7 @@
 
     <groupId>com.jay.kanaiya.HubPvPPlus</groupId>
     <artifactId>HubPvPPlus</artifactId>
-    <version>1.7</version>
+    <version>1.8</version>
     <packaging>jar</packaging>
 
     <name>HubPvPPlus</name>
@@ -63,7 +63,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.21-R0.1-SNAPSHOT</version>
+            <version>1.13.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

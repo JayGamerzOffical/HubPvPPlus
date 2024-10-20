@@ -1,5 +1,7 @@
 # **HubPvPPlus**
 
+![HubPvP Plus.png](HubPvP%20Plus.png)
+
 ### HubPvPPlus is a light weight, customizable plugin designed to enhance the hub experience of Minecraft servers by enabling PvP combat using a special magic sword.
 #### Created by **[Jay Gamerz](https://www.fiverr.com/jay_gamerz)** and **[Kanaiya](https://www.youtube.com/@kanhaiyaswagger.)**, this plugin allows players to easily toggle PvP in the lobby or Hub.
 
