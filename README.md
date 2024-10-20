@@ -32,7 +32,7 @@ Default: true
 HubPvPPlus natively supports Minecraftrom 1.8 to 1.21  While it may work on earlier versions, support is not guaranteed for them.
 # 📽️ YouTube Channel
 ### [Kanaiya](https://www.youtube.com/@kanhaiyaswagger.)
-# <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/yXALpKfq6hk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+[![YouTube Video](https://img.youtube.com/vi/yXALpKfq6hk/0.jpg)](https://www.youtube.com/watch?v=yXALpKfq6hk)
 
 # SCREENSHOTS
 
