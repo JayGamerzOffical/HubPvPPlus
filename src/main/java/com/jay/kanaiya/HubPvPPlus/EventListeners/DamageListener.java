@@ -1,8 +1,7 @@
-package com.jay.kanaiya.HubPvPPlus.listeners;
+package com.jay.kanaiya.HubPvPPlus.EventListeners;
 
 import com.jay.kanaiya.HubPvPPlus.HubPvPPlus;
 import com.jay.kanaiya.HubPvPPlus.core.PvPManager;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,8 +17,8 @@ public class DamageListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH) // Work on whitelisted/blacklisted worlds
 	public void onDamage(EntityDamageByEntityEvent e) {
-		HubPvPPlus instance = HubPvPPlus.instance();
-		PvPManager pvpManager = instance.pvpManager();
+		HubPvPPlus instance = HubPvPPlus.getInstance();
+		PvPManager pvpManager = instance.getPvpManager();
 		if (e.getEntity() instanceof Player damager && e.getDamager() instanceof Player damaged) {
 			World world = damager.getLocation().getWorld();
 
@@ -34,11 +33,11 @@ public class DamageListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerChangedWorld(PlayerChangedWorldEvent event) {
 		Player player = event.getPlayer();
-		HubPvPPlus instance = HubPvPPlus.instance();
+		HubPvPPlus instance = HubPvPPlus.getInstance();
 		World newWorld = player.getLocation().getWorld();
-		PvPManager pvpManager = instance.pvpManager();
+		PvPManager pvpManager = instance.getPvpManager();
 		if (instance.getConfig().getStringList("disabled-worlds").contains(Objects.requireNonNull(newWorld).getName())) {
-			removeWeaponsFromInventory(player,pvpManager.getWeapon().getItemStack());
+			removeWeaponsFromInventory(player,pvpManager.getWeapon());
 		}
 	}
 

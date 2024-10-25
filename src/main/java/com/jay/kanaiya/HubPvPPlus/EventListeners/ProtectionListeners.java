@@ -1,4 +1,4 @@
-package com.jay.kanaiya.HubPvPPlus.listeners;
+package com.jay.kanaiya.HubPvPPlus.EventListeners;
 
 import com.jay.kanaiya.HubPvPPlus.HubPvPPlus;
 import com.jay.kanaiya.HubPvPPlus.core.PvPManager;
@@ -16,11 +16,11 @@ public class ProtectionListeners implements Listener {
 	public void onClick(InventoryClickEvent e) {
 		Player p = (Player) e.getWhoClicked();
 		ItemStack item = e.getCurrentItem();
-		PvPManager pvPManager = HubPvPPlus.instance().pvpManager();
+		PvPManager pvPManager = HubPvPPlus.getInstance().getPvpManager();
 		if (item == null) return;
 
 		if (pvPManager.isInPvP(p)) {
-			if (item.isSimilar(pvPManager.getWeapon().getItemStack())) {
+			if (item.isSimilar(pvPManager.getWeapon())) {
 				e.setCancelled(true);
 			} else if (e.getSlotType() == InventoryType.SlotType.ARMOR) {
 				e.setCancelled(true);
@@ -32,12 +32,12 @@ public class ProtectionListeners implements Listener {
 	public void onDrop(PlayerDropItemEvent e) {
 		Player p = e.getPlayer();
 		ItemStack item = e.getItemDrop().getItemStack();
-		PvPManager pvPManager = HubPvPPlus.instance().pvpManager();
+		PvPManager pvPManager = HubPvPPlus.getInstance().getPvpManager();
 
 		if (pvPManager.isInPvP(p)) {
-			if (item.isSimilar(pvPManager.getWeapon().getItemStack())) {
+			if (item.isSimilar(pvPManager.getWeapon())) {
 				e.setCancelled(true);
-			} else if (item.getType().toString().toLowerCase().contains("armor")) { // very bad way of doing this, feel free to make a new branch to update
+			} else if (item.getType().toString().toLowerCase().contains("armor")) {
 				e.setCancelled(true);
 			}
 		}

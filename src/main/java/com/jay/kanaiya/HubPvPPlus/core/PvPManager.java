@@ -1,10 +1,8 @@
 package com.jay.kanaiya.HubPvPPlus.core;
 
 import com.jay.kanaiya.HubPvPPlus.HubPvPPlus;
-import com.jay.kanaiya.HubPvPPlus.util.StringUtil;
-import com.jay.kanaiya.HubPvPPlus.itemguilib.items.CustomItemManager;
+import com.jay.kanaiya.HubPvPPlus.ColorFixedUtil.ConfigColorUtil;
 import lombok.Getter;
-import com.jay.kanaiya.HubPvPPlus.itemguilib.items.CustomItem;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -13,8 +11,10 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Nullable;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,86 +28,104 @@ public class PvPManager {
 	private final Map<Player, BukkitRunnable> currentTimers;
 	private final List<OldPlayerData> oldPlayerDataList;
 
-	private CustomItem weapon, helmet, chestplate, leggings, boots;
+	private ItemStack weapon, helmet, chestplate, leggings, boots;
 	private FileConfiguration itemsConfig;
+	private Map<String, ItemStack> customItems;
 
 	public PvPManager() {
 		playerPvpStates = new HashMap<>();
 		currentTimers = new HashMap<>();
 		oldPlayerDataList = new ArrayList<>();
-
+		customItems = new HashMap<>();
 		loadItemsConfig();
 		loadItems();
 	}
 
-	// Load the items.yml configuration
 	public void loadItemsConfig() {
-		File itemsFile = new File(HubPvPPlus.instance().getDataFolder(), "items.yml");
+		File itemsFile = new File(HubPvPPlus.getInstance().getDataFolder(), "items.yml");
 		if (!itemsFile.exists()) {
-			HubPvPPlus.instance().saveResource("items.yml", false); // Save the default items.yml if not present
+			HubPvPPlus.getInstance().saveResource("items.yml", false);
 		}
-		itemsConfig = YamlConfiguration.loadConfiguration(itemsFile); // Load items.yml into itemsConfig
+		itemsConfig = YamlConfiguration.loadConfiguration(itemsFile);
 	}
 
-	// Load items from the items.yml configuration
 	public void loadItems() {
-		// Weapon
 		weapon = getItemFromConfig("weapon");
-
-		// Armor
 		helmet = getItemFromConfig("helmet");
 		chestplate = getItemFromConfig("chestplate");
 		leggings = getItemFromConfig("leggings");
 		boots = getItemFromConfig("boots");
 	}
 
-	// Load a specific item from items.yml
-	public CustomItem getItemFromConfig(String name) {
+	public ItemStack createHubItems(ItemStack itemStack) {
+		ItemStack customItem = new ItemStack(itemStack);
+		customItems.put(itemStack.getType().toString(), customItem);
+		return customItem;
+	}
+	public boolean isInPvP(Player player) {
+		return getPlayerState(player) == PvPState.ON || getPlayerState(player) == PvPState.DISABLING;
+	}
+
+	public PvPState getPlayerState(Player p) {
+		return playerPvpStates.get(p);
+	}
+
+	public ItemStack getItemFromConfig(String name) {
 		String material = itemsConfig.getString("items." + name + ".material");
 		if (material == null) {
-			HubPvPPlus.instance().getLogger().warning("Material for item " + name + " is null!");
+			HubPvPPlus.getInstance().getLogger().warning("Material for item " + name + " is null!");
 			return null;
 		}
-		CustomItem item = CustomItemManager.get().createCustomItem(new ItemStack(Material.valueOf(material)));
+
+		ItemStack item = createHubItems(new ItemStack(Material.valueOf(material)));
+		ItemMeta meta = item.getItemMeta();
 
 		String itemName = itemsConfig.getString("items." + name + ".name");
-		if (itemName != null && !itemName.isEmpty()) item.setName(StringUtil.colorize(itemName));
+		if (itemName != null && !itemName.isEmpty() && meta != null) {
+			meta.setDisplayName(ConfigColorUtil.colorize(itemName));
+		}
 
 		List<String> lore = itemsConfig.getStringList("items." + name + ".lore");
-		if (!(lore.size() == 1 && lore.get(0).isEmpty())) item.addLore(StringUtil.colorize(lore));
+		if (lore != null && !lore.isEmpty() && meta != null) {
+			meta.setLore(ConfigColorUtil.colorize(lore));
+		}
 
 		List<String> enchants = itemsConfig.getStringList("items." + name + ".enchantments");
 		if (enchants != null && !enchants.isEmpty()) {
 			for (String enchant : enchants) {
 				String[] split = enchant.split(":");
 				Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(split[0].toLowerCase()));
-				if (enchantment == null) {
-					HubPvPPlus.instance().getLogger().warning("Could not find enchantment " + split[0]);
-					continue;
+				int level = split.length > 1 ? Integer.parseInt(split[1]) : 1;
+
+				if (enchantment != null) {
+					item.addUnsafeEnchantment(enchantment, level);
+				} else {
+					HubPvPPlus.getInstance().getLogger().warning("Could not find enchantment " + split[0]);
 				}
-				item.getItemStack().addEnchantment(enchantment, Integer.parseInt(split[1]));
 			}
 		}
 
-		item.addFlags(ItemFlag.HIDE_UNBREAKABLE);
-		item.setUnbreakable(true);
+		if (meta != null) {
+			meta.setUnbreakable(true);
+			meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+			item.setItemMeta(meta);
+		}
 
 		return item;
 	}
 
 	public void enablePvP(Player player) {
 		setPlayerState(player, PvPState.ON);
-
 		if (getOldData(player) != null) getOldPlayerDataList().remove(getOldData(player));
 		getOldPlayerDataList().add(new OldPlayerData(player, player.getInventory().getArmorContents(), player.getAllowFlight()));
 
 		player.setAllowFlight(false);
-		player.getInventory().setHelmet(getHelmet().getItemStack());
-		player.getInventory().setChestplate(getChestplate().getItemStack());
-		player.getInventory().setLeggings(getLeggings().getItemStack());
-		player.getInventory().setBoots(getBoots().getItemStack());
+		player.getInventory().setHelmet(helmet);
+		player.getInventory().setChestplate(chestplate);
+		player.getInventory().setLeggings(leggings);
+		player.getInventory().setBoots(boots);
 
-		player.sendMessage(StringUtil.colorize(HubPvPPlus.instance().getConfig().getString("lang.pvp-enabled")));
+		player.sendMessage(ConfigColorUtil.colorize(HubPvPPlus.getInstance().getConfig().getString("lang.pvp-enabled")));
 	}
 
 	public void setPlayerState(Player p, PvPState state) {
@@ -118,14 +136,8 @@ public class PvPManager {
 		return oldPlayerDataList.stream().filter(data -> data.player().equals(p)).findFirst().orElse(null);
 	}
 
-	public void removePlayer(Player p) {
-		disablePvP(p);
-		playerPvpStates.remove(p);
-	}
-
 	public void disablePvP(Player player) {
 		setPlayerState(player, PvPState.OFF);
-
 		OldPlayerData oldPlayerData = getOldData(player);
 		if (oldPlayerData != null) {
 			player.getInventory().setHelmet(oldPlayerData.armor()[3] == null ? new ItemStack(Material.AIR) : oldPlayerData.armor()[3]);
@@ -135,48 +147,18 @@ public class PvPManager {
 			player.setAllowFlight(oldPlayerData.canFly());
 		}
 
-		player.sendMessage(StringUtil.colorize(HubPvPPlus.instance().getConfig().getString("lang.pvp-disabled")));
+		player.sendMessage(ConfigColorUtil.colorize(HubPvPPlus.getInstance().getConfig().getString("lang.pvp-disabled")));
 	}
 
-	public void disable() {
-		for (Player p : playerPvpStates.keySet()) {
-			if (isInPvP(p)) disablePvP(p);
-		}
-		playerPvpStates.clear();
-	}
-
-	public boolean isInPvP(Player player) {
-		return getPlayerState(player) == PvPState.ON || getPlayerState(player) == PvPState.DISABLING;
-	}
-
-	public PvPState getPlayerState(Player p) {
-		return playerPvpStates.get(p);
-	}
 	public void giveWeapon(Player p) {
-		// Get the weapon item stack to be given
-		ItemStack newWeapon = getWeapon().getItemStack();
-
-		// Get the weapon slot from the configuration
+		ItemStack newWeapon = weapon;
 		int weaponSlot = itemsConfig.getInt("items.weapon.slot") - 1;
-
-		// Get the current item in the specified slot
 		ItemStack currentItem = p.getInventory().getItem(weaponSlot);
 
-		// Check if the slot is empty
 		if (currentItem == null || currentItem.getType() == Material.AIR) {
-			// Slot is free, set the new weapon
 			p.getInventory().setItem(weaponSlot, newWeapon);
-			return;
-		}
-
-		// Check if the current item is the same as the new weapon
-		if (currentItem.isSimilar(newWeapon)) {
-			// Do nothing since the same weapon is already equipped
-			return;
-		} else {
-			// If current item is different, send a message to the player
+		} else if (!currentItem.isSimilar(newWeapon)) {
 			p.sendMessage("Please change the item in your weapon slot from plugins/HubPvPPlus/items.yml.");
-			return;
 		}
 	}
 
@@ -192,5 +174,11 @@ public class PvPManager {
 			getCurrentTimers().get(p).cancel();
 		}
 		getCurrentTimers().remove(p);
+	}
+	public void disable() {
+		for (Player p : playerPvpStates.keySet()) {
+			if (isInPvP(p)) disablePvP(p);
+		}
+		playerPvpStates.clear();
 	}
 }

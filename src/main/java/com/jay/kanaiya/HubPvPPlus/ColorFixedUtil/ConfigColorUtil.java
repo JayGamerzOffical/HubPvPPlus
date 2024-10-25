@@ -1,4 +1,4 @@
-package com.jay.kanaiya.HubPvPPlus.util;
+package com.jay.kanaiya.HubPvPPlus.ColorFixedUtil;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public final class StringUtil {
+public final class ConfigColorUtil {
 
 	private static final Pattern HEX_PATTERN = Pattern.compile("&(#\\w{6})");
 
-	private StringUtil() {
+	private ConfigColorUtil() {
 		throw new UnsupportedOperationException("This class is not meant to be instantiated.");
 	}
 

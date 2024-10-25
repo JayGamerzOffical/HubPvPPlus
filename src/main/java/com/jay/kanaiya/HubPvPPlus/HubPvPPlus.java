@@ -1,10 +1,10 @@
 package com.jay.kanaiya.HubPvPPlus;
 
-import com.jay.kanaiya.HubPvPPlus.commands.HubPvPCommand;
-import com.jay.kanaiya.HubPvPPlus.listeners.*;
-import com.jay.kanaiya.HubPvPPlus.util.StringUtil;
+import com.jay.kanaiya.HubPvPPlus.commands.PvPCommandHandler;
+import com.jay.kanaiya.HubPvPPlus.EventListeners.*;
+import com.jay.kanaiya.HubPvPPlus.ColorFixedUtil.ConfigColorUtil;
 import com.jay.kanaiya.HubPvPPlus.core.PvPManager;
-import com.jay.kanaiya.HubPvPPlus.itemguilib.ItemGuiLib;
+import lombok.Getter;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -14,25 +14,22 @@ import java.util.logging.Logger;
 
 public final class HubPvPPlus extends JavaPlugin {
 
-	private static HubPvPPlus instance;
+	@Getter
+    private static HubPvPPlus instance;
 
-	private PvPManager pvpManager;
+	@Getter
+    private PvPManager pvpManager;
 
 
-    public static HubPvPPlus instance() {
-		return instance;
-	}
-
-	@Override
+    @Override
 	public void onDisable() {
 		pvpManager.disable();
-		getServer().getConsoleSender().sendMessage(StringUtil.colorize("&c" + getDescription().getName() + " v" + getDescription().getVersion() + " disabled."));
+		getServer().getConsoleSender().sendMessage(ConfigColorUtil.colorize("&c" + getDescription().getName() + " v" + getDescription().getVersion() + " disabled."));
 	}
 
 	@Override
 	public void onEnable() {
 		instance = this;
-		ItemGuiLib.setPluginInstance(this);
 		pvpManager = new PvPManager();
 
 		registerListeners();
@@ -57,8 +54,8 @@ public final class HubPvPPlus extends JavaPlugin {
 	}
 
 	private void registerCommands() {
-		Objects.requireNonNull(getCommand("hpp")).setExecutor(new HubPvPCommand());
-		Objects.requireNonNull(getCommand("hpp")).setTabCompleter(new HubPvPCommand());
+		Objects.requireNonNull(getCommand("hpp")).setExecutor(new PvPCommandHandler());
+		Objects.requireNonNull(getCommand("hpp")).setTabCompleter(new PvPCommandHandler());
 	}
 
 	// Load and save methods for items.yml
@@ -84,7 +81,4 @@ public final class HubPvPPlus extends JavaPlugin {
 		logger.info("Plugin is Successfully enabled!");
 	}
 
-	public PvPManager pvpManager() {
-		return pvpManager;
-	}
 }
