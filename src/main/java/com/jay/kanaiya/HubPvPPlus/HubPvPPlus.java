@@ -3,7 +3,7 @@ package com.jay.kanaiya.HubPvPPlus;
 import com.jay.kanaiya.HubPvPPlus.commands.PvPCommandHandler;
 import com.jay.kanaiya.HubPvPPlus.EventListeners.*;
 import com.jay.kanaiya.HubPvPPlus.ColorFixedUtil.ConfigColorUtil;
-import com.jay.kanaiya.HubPvPPlus.core.PvPManager;
+import com.jay.kanaiya.HubPvPPlus.PvPHandler.PvPManager;
 import lombok.Getter;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;

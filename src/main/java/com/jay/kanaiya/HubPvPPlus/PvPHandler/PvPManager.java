@@ -1,4 +1,4 @@
-package com.jay.kanaiya.HubPvPPlus.core;
+package com.jay.kanaiya.HubPvPPlus.PvPHandler;
 
 import com.jay.kanaiya.HubPvPPlus.HubPvPPlus;
 import com.jay.kanaiya.HubPvPPlus.ColorFixedUtil.ConfigColorUtil;

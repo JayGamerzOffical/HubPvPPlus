@@ -1,9 +1,9 @@
 package com.jay.kanaiya.HubPvPPlus.EventListeners;
 
-import com.jay.kanaiya.HubPvPPlus.core.OldPlayerData;
-import com.jay.kanaiya.HubPvPPlus.core.PvPState;
+import com.jay.kanaiya.HubPvPPlus.PvPHandler.OldPlayerData;
+import com.jay.kanaiya.HubPvPPlus.PvPHandler.PvPState;
 import com.jay.kanaiya.HubPvPPlus.HubPvPPlus;
-import com.jay.kanaiya.HubPvPPlus.core.PvPManager;
+import com.jay.kanaiya.HubPvPPlus.PvPHandler.PvPManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
