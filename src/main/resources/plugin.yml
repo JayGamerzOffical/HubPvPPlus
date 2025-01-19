@@ -1,16 +1,22 @@
 name: HubPvPPlus
-version: 2.0
-main: com.jay.kanaiya.HubPvPPlus.HubPvPPlus
-api-version: 1.13
+version: 1.1
+main: com.jay.kanhaiya.hubpvpplus.HubPvPPlus
+api-version: 1.8
 prefix: HubPvPPlus
-soft-depend: PhoenixLobby
-authors: [ jayGamerz, Kanaiya ]
+authors: [ JayGamerz, Kanhaiya ]
 description: HubPvPPlus plugin - A Magic sword that players can PvP each other with in the hub!
 commands:
-  hpp:
+  hubpvpplus:
     description: HubPvPPlus core command.
-    permission: hpp.reload
+    aliases:
+      - hp
+      - hubpvp
+      - hpp
+    permission: hubpvpplus.reload
 permissions:
-  hpp.use:
-    description: Use the Hub PvP sword.
+  hubpvpplus.use:
+    description: Use the HubPvP Plus sword.
     default: true
+  hubpvpplus.reload:
+    description: HubPvP Plus Admin command.
+    default: op

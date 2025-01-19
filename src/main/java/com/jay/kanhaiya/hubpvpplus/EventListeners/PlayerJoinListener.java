@@ -1,9 +1,9 @@
-package com.jay.kanaiya.HubPvPPlus.EventListeners;
+package com.jay.kanhaiya.hubpvpplus.EventListeners;
 
-import com.jay.kanaiya.HubPvPPlus.PvPHandler.OldPlayerData;
-import com.jay.kanaiya.HubPvPPlus.PvPHandler.PvPState;
-import com.jay.kanaiya.HubPvPPlus.HubPvPPlus;
-import com.jay.kanaiya.HubPvPPlus.PvPHandler.PvPManager;
+import com.jay.kanhaiya.hubpvpplus.ColorFixedUtil.ConfigColorUtil;
+import com.jay.kanhaiya.hubpvpplus.PvPHandler.PvPState;
+import com.jay.kanhaiya.hubpvpplus.HubPvPPlus;
+import com.jay.kanhaiya.hubpvpplus.PvPHandler.PvPManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,29 +12,52 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Objects;
+
 public class PlayerJoinListener implements Listener {
+HubPvPPlus lobbyPvP;
+
+    public PlayerJoinListener(HubPvPPlus hubPvPPlus) {
+        this.lobbyPvP = hubPvPPlus;
+    }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         PvPManager pvPManager = HubPvPPlus.getInstance().getPvpManager();
-
-        if (p.hasPermission("hpp.use") &&
-                !HubPvPPlus.getInstance().getConfig().getStringList("disabled-worlds").contains(p.getWorld().getName())) {
-            pvPManager.giveWeapon(p);
+        if ( !HubPvPPlus.getInstance().getConfig ().getList ("restricted-worlds").contains (p.getWorld ().getName ())&& !p.getWorld ( ).getPVP ( ) ) {
+            p.getWorld ( ).setPVP (true);
+            pvPManager.giveWeapon (p);
+        }else{
+            pvPManager.giveWeapon (p);
         }
 
-        pvPManager.getOldPlayerDataList().add(new OldPlayerData(p, p.getInventory().getArmorContents(), p.getAllowFlight()));
-        pvPManager.setPlayerState(p, PvPState.OFF);
-    }
 
+
+        pvPManager.setPlayerState(p, PvPState.OFF);
+
+        //pvPManager.getOldPlayerDataList().add(new OldPlayerData(p, p.getInventory().getArmorContents(), p.getAllowFlight()));
+    }
     @EventHandler
-    public void onQuit(PlayerQuitEvent e) {
+    public void onJoin(PlayerRespawnEvent e) {
         Player p = e.getPlayer();
         PvPManager pvPManager = HubPvPPlus.getInstance().getPvpManager();
+        if ( !HubPvPPlus.getInstance().getConfig ().getList ("restricted-worlds").contains (p.getWorld ().getName ()) ) {
+            pvPManager.giveWeapon (p);
+        }
 
+       // pvPManager.getOldPlayerDataList().add(new OldPlayerData(p, p.getInventory().getArmorContents(), p.getAllowFlight()));
+        pvPManager.setPlayerState(p, PvPState.OFF);
+    }
+    @EventHandler
+    public void onQuit(PlayerQuitEvent e) {
+        PvPManager pvpManager = HubPvPPlus.getInstance().getPvpManager();
+        Player p = e.getPlayer();
+        PvPManager pvPManager = HubPvPPlus.getInstance().getPvpManager();
+        p.getInventory().remove(pvpManager.getWeapon());
         pvPManager.disablePvP(p);
     }
     @EventHandler
@@ -45,8 +68,8 @@ public class PlayerJoinListener implements Listener {
         // Check if the item matches one of your custom items (weapon, armor)
         if (isCustomPvPItem(droppedItem)) {
             // Cancel the drop event
+            player.sendMessage(ConfigColorUtil.colorize(Objects.requireNonNull(HubPvPPlus.getInstance().getConfig().getString("messages.cant-drop-item"))));
             event.setCancelled(true);
-            player.sendMessage("You cannot drop this special PvP item!");
         }
     }
 
@@ -71,19 +94,10 @@ public class PlayerJoinListener implements Listener {
         // Check if the clicked item is the specific item
         if (event.getCurrentItem() != null && event.getCurrentItem().isSimilar(pvPManager.getWeapon())) {
             event.setCancelled(true); // Cancel the movement
-            player.sendMessage("You cannot move this item.");
+            player.sendMessage(ConfigColorUtil.colorize(Objects.requireNonNull(HubPvPPlus.getInstance().getConfig().getString("messages.cant-move-item"))));
         }
     }
-
-    // Prevent the specific item from being dropped
-    @EventHandler
-    public void onItemDrop(PlayerDropItemEvent event) {
-        Player player = event.getPlayer();
-        PvPManager pvPManager = HubPvPPlus.getInstance().getPvpManager();
-        // Check if the dropped item is the specific item
-        if (event.getItemDrop().getItemStack().isSimilar(pvPManager.getWeapon())) {
-            event.setCancelled(true); // Cancel the drop
-            player.sendMessage("You cannot drop this item.");
-        }
-    }
+ /*   private void showParticles(Player player) {
+        player.getWorld().spawnParticle(Particle.DRIP_LAVA, player.getLocation(), 10);
+    }*/
 }

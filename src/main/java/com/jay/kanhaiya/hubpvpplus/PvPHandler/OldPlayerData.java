@@ -1,4 +1,4 @@
-package com.jay.kanaiya.HubPvPPlus.PvPHandler;
+package com.jay.kanhaiya.hubpvpplus.PvPHandler;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

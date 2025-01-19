@@ -1,7 +1,7 @@
-package com.jay.kanaiya.HubPvPPlus.EventListeners;
+package com.jay.kanhaiya.hubpvpplus.EventListeners;
 
-import com.jay.kanaiya.HubPvPPlus.HubPvPPlus;
-import com.jay.kanaiya.HubPvPPlus.PvPHandler.PvPManager;
+import com.jay.kanhaiya.hubpvpplus.HubPvPPlus;
+import com.jay.kanhaiya.hubpvpplus.PvPHandler.PvPManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

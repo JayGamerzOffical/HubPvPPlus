@@ -60,48 +60,105 @@ To configure the `HubPvP+` plugin, follow these steps:
    - Modify the config file as follows:
 
 ```yaml
-disabled-worlds:
-  - world_nopvp
-enable-cooldown: 4
-disable-cooldown: 4
-sound-effects: true
-lang:
-  pvp-enabled: '&e❤ &6HubPvP+ has been &aActivated&7!'
-  pvp-enabling: '&e❤ &6HubPVP+ will activate in &e%time%&7.'
-  pvp-disabled: '&e❤ &6HubPVP+ Mode has been &cDeactivated&7!'
-  pvp-disabling: '&e❤ &6HubPVP+ will deactivate, in &e%time%&7.'
-  reloaded: '&aSuccessfully HubPvP+ config reloaded!'
-  disabled-in-world: "&cYou may not use this in this world!"
-  broadcast_msg: "&6[] &e%victim%"
+ #Instruction - use & before typing a hash code like -> &#e310e1
+#Join ring particle
+starting-ring:
+  isEnabled: true
+
+#this cool particle plays when player is in PvP Mode
+pvp-move-particle: true
+
+  # Worlds where PvP is not allowed
+restricted-worlds:
+    - world_no_combat
+
+  # Time delay (in seconds) for turning on PvP
+pvp-enable-delay: 4
+
+  # Time delay (in seconds) for turning off PvP
+pvp-disable-delay: 4
+
+  # Amount of health awarded to the killer after a kill
+health-reward-on-kill: 8
+
+  # Should players respawn at the world spawn?
+respawn-at-spawn: false
+
+  # Enable sound effects for PvP actions
+enable-sound-effects: true
+
+  # Language configurations for PvP messages
+messages:
+    # Notification when health is awarded to the killer
+  health-reward-message: '&6⚔ &7You defeated &e%killed% &7and gained &a+%extra% HP!'
+
+  cant-move-item: '&6⚔ &7You cannot move this item.!'
+
+  cant-drop-item: '&6⚔ &7You cannot drop this item.!'
+
+    # Alert for PvP activation
+  pvp-activated: '&e⚔ &6PvP Mode has been &aEnabled&7!'
+
+    # Countdown for enabling PvP
+  pvp-activating: '&e⚔ &6PvP Mode activating in &e%time%&7 seconds.'
+
+    # Alert for PvP deactivation
+  pvp-deactivated: '&e⚔ &6PvP Mode has been &cDisabled&7!'
+
+    # Countdown for disabling PvP
+  pvp-deactivating: '&e⚔ &6PvP Mode deactivating in &e%time%&7 seconds.'
+
+    # Success message for configuration reload
+  config-reloaded: '&aPvP configuration successfully reloaded!'
+
+    # Message for attempting to use PvP in a restricted world
+  restricted-world-message: "&cYou cannot use PvP in this world!"
+
+    # Announcement for player deaths
+  death-broadcast: "&6[☠] &e%victim%"
+
 ```
 Save and Reload:
 `Items.yml`
 ```yaml
-items:
+#Instruction - use & before typing a hash code like -> &#e310e1
+
+gear:
   weapon:
-    slot: 5 # Sword slot inside the player's inventory
-    material: NETHERITE_SWORD # Item to use as the sword
-    name: '&cPvP Sword &7[Hold To Fight]' # Name of the item
-    lore: # Item description, shown when hovering over in inventory
+    inventory-slot: 5 # Slot number for the weapon in the player's inventory
+    type: DIAMOND_SWORD # The material for the weapon
+    display-name: "&#e310e1PvP Sword &7[Hold To Fight]" # Custom name for the weapon
+    description: # Lore or additional details for the weapon
       - ""
     enchantments:
-      - "sharpness:2"
+      - "sharpness:2" # Adds sharpness to the weapon
+    flags:
+      - "HIDE_ENCHANTS" # Hides enchantments from being visible
+      - "HIDE_ATTRIBUTES" # Hides item attributes
+
+#You use a set custom display name for these items also by using-> display-name: ""
   helmet:
-    material: NETHERITE_HELMET # Item to use as the helmet
+    display-name: "&#e310e1PvP Helmet"
+    type: DIAMOND_HELMET # Material for the helmet
     enchantments:
-      - "protection:3"
+      - "protection:3" # Adds protection enchantment
+      - "fire_protection:3" # Adds protection enchantment
   chestplate:
-    material: NETHERITE_CHESTPLATE # Item to use as the chestplate
+    display-name: "&#e310e1PvP Chestplate"
+    type: DIAMOND_CHESTPLATE # Material for the chestplate
     enchantments:
-      - "protection:3"
+      - "protection:3" # Adds protection enchantment
   leggings:
-    material: NETHERITE_LEGGINGS # Item to use as the leggings
+    display-name: "&#e310e1PvP Leggings"
+    type: DIAMOND_LEGGINGS # Material for the leggings
     enchantments:
-      - "protection:3"
+      - "protection:3" # Adds protection enchantment
   boots:
-    material: NETHERITE_BOOTS # Item to use as the boots
+    display-name: "&#e310e1PvP Boots"
+    type: DIAMOND_BOOTS # Material for the boots
     enchantments:
-      - 
+      - "protection:3" # Adds protection enchantment
+
 ```
 This keeps your YAML configuration section separate and clear, while smoothly transitioning to the rest of your README content. 📜🛠️
 # **For Example**
@@ -113,13 +170,11 @@ Get HubPvPPlus from:
 
 ## Modrinth [HubPvP Plus](https://modrinth.com/plugin/hubpvpplus)
 
-SpigotMC HubPvPPlus
+SpigotMC HubPvP Plus
+Modrinth HubPvP Plus
 GitHub Releases
-
-# HubPvP Plus plugin logo
-![plugin logo](https://cdn.modrinth.com/data/cached_images/14e991d4674937acb073bc89c37cb581448d14f1_0.webp)
 
 # 🧑‍💻 Authors
 #### Developed by:
-### [Kanaiya](https://www.youtube.com/@kanhaiyaswagger.)
-### [Jay Gamerz](https://www.fiverr.com/jay_gamerz)
+### [Kanhaiya Swagger](https://www.youtube.com/@kanhaiyaswagger.)
+### [Jay Gamerz](https://www.youtube.com/@JayGamerz)

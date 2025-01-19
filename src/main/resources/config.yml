@@ -1,36 +1,69 @@
+#########################################################################################
+#                                                                                       #
+# HubPvPPlus, a free resource by Swagger Studio @                                     #
+#                                                                                       #
+# Support: https://minecraftinfinity.com/discord                                        #
+# Tutorial: Coming very Soon at YT https://bit.ly/kanhaiyaswagger                       #
+# sponsored by: https://swagger.cloud/ BEST Hosting + User Friendly + Trustable         #
+#                                                                                       #
+# You are editing the menu.yml file of HubPvPPlus.                                  #
+#                                                                                       #
+#########################################################################################
 
-  # List of worlds where PvP is disabled
-disabled-worlds:
-  - world_nopvp
 
-# Cooldown duration (in seconds) for enabling PvP
-enable-cooldown: 4
+#Instruction - use & before typing a hash code like -> &#e310e1
+#Join ring particle
+starting-ring:
+  isEnabled: true
 
-# Cooldown duration (in seconds) for disabling PvP
-disable-cooldown: 4
+#this cool particle plays when player is in PvP Mode
+pvp-move-particle: true
 
-# Flag to enable or disable sound effects for PvP actions
-sound-effects: true
+  # Worlds where PvP is not allowed
+restricted-worlds:
+  - world_no_combat
 
-# Language settings for various PvP-related messages
-lang:
-  # Message displayed when PvP is enabled
-  pvp-enabled: '&e❤ &6HubPvP+ has been &aActivated&7!'
+  # Time delay (in seconds) for turning on PvP
+pvp-enable-delay: 4
 
-  # Message displayed while PvP is enabling with a countdown timer
-  pvp-enabling: '&e❤ &6HubPVP+ will activate in &e%time%&7.'
+  # Time delay (in seconds) for turning off PvP
+pvp-disable-delay: 4
 
-  # Message displayed when PvP is disabled
-  pvp-disabled: '&e❤ &6HubPVP+ Mode has been &cDeactivated&7!'
+  # Amount of health awarded to the killer after a kill
+health-reward-on-kill: 8
 
-  # Message displayed while PvP is disabling with a countdown timer
-  pvp-disabling: '&e❤ &6HubPVP+ will deactivate, in &e%time%&7.'
+  # Should players respawn at the world spawn?
+respawn-at-spawn: false
 
-  # Message displayed when the configuration is successfully reloaded
-  reloaded: '&aSuccessfully HubPvP+ config reloaded!'
+  # Enable sound effects for PvP actions
+enable-sound-effects: true
 
-  # Message displayed when a player tries to use a feature in a disabled world
-  disabled-in-world: "&cYou may not use this in this world!"
+  # Language configurations for PvP messages
+messages:
+    # Notification when health is awarded to the killer
+  health-reward-message: '&6⚔ &7You defeated &e%killed% &7and gained &a+%extra% HP!'
 
-  # Broadcast message template for a PvP victim
-  broadcast_msg: "&6[💀] &e%victim%"
+  cant-move-item: '&6⚔ &7You cannot move this item.!'
+
+  cant-drop-item: '&6⚔ &7You cannot drop this item.!'
+
+    # Alert for PvP activation
+  pvp-activated: '&e⚔ &6PvP Mode has been &aEnabled&7!'
+
+    # Countdown for enabling PvP
+  pvp-activating: '&e⚔ &6PvP Mode activating in &e%time%&7 seconds.'
+
+    # Alert for PvP deactivation
+  pvp-deactivated: '&e⚔ &6PvP Mode has been &cDisabled&7!'
+
+    # Countdown for disabling PvP
+  pvp-deactivating: '&e⚔ &6PvP Mode deactivating in &e%time%&7 seconds.'
+
+    # Success message for configuration reload
+  config-reloaded: '&aPvP configuration successfully reloaded!'
+
+    # Message for attempting to use PvP in a restricted world
+  restricted-world-message: "&cYou cannot use PvP in this world!"
+
+    # Announcement for player deaths
+  death-broadcast: "&6[☠] &e%victim%"

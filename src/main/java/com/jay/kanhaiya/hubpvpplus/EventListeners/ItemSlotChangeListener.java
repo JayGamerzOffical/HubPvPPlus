@@ -1,9 +1,9 @@
-package com.jay.kanaiya.HubPvPPlus.EventListeners;
+package com.jay.kanhaiya.hubpvpplus.EventListeners;
 
-import com.jay.kanaiya.HubPvPPlus.HubPvPPlus;
-import com.jay.kanaiya.HubPvPPlus.PvPHandler.PvPManager;
-import com.jay.kanaiya.HubPvPPlus.PvPHandler.PvPState;
-import com.jay.kanaiya.HubPvPPlus.ColorFixedUtil.ConfigColorUtil;
+import com.jay.kanhaiya.hubpvpplus.HubPvPPlus;
+import com.jay.kanhaiya.hubpvpplus.PvPHandler.PvPManager;
+import com.jay.kanhaiya.hubpvpplus.PvPHandler.PvPState;
+import com.jay.kanhaiya.hubpvpplus.ColorFixedUtil.ConfigColorUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,18 +18,18 @@ public class ItemSlotChangeListener implements Listener {
 	@EventHandler
 	public void onSlotChange(PlayerItemHeldEvent e) {
 		Player player = e.getPlayer();
-		ItemStack newHeldItem = player.getInventory().getItem(e.getNewSlot());
+
+		if (!player.hasPermission("lp.use")) {
+			return;
+		}
+		ItemStack newHeldItem =player.getInventory ().getItem (e.getNewSlot ());
 		HubPvPPlus hubPvPPlusInstance = HubPvPPlus.getInstance();
 		PvPManager pvpManager = hubPvPPlusInstance.getPvpManager();
 
-		if (!player.hasPermission("hpp.use")) {
-			return;
-		}
-
-		if (hubPvPPlusInstance.getConfig().getStringList("disabled-worlds").contains(player.getWorld().getName())) {
+		if (hubPvPPlusInstance.getConfig().getStringList("restricted-worlds").contains(player.getWorld().getName())) {
 			if (newHeldItem != null && newHeldItem.isSimilar(pvpManager.getWeapon())) {
 				player.getInventory().setItem(e.getNewSlot(), null);
-				player.sendMessage(ConfigColorUtil.colorize(hubPvPPlusInstance.getConfig().getString("lang.disabled-in-world")));
+				player.sendMessage(ConfigColorUtil.colorize(hubPvPPlusInstance.getConfig().getString("messages.restricted-world-message")));
 				return;
 			}
 		}
@@ -46,7 +46,7 @@ public class ItemSlotChangeListener implements Listener {
 				pvpManager.setPlayerState(player, PvPState.ENABLING);
 
 				BukkitRunnable enableTask = new BukkitRunnable() {
-					int countdown = hubPvPPlusInstance.getConfig().getInt("enable-cooldown") + 1;
+					int countdown = hubPvPPlusInstance.getConfig().getInt("pvp-enable-delay");
 
 					public void run() {
 						countdown--;
@@ -59,7 +59,7 @@ public class ItemSlotChangeListener implements Listener {
 							pvpManager.removeTimer(player);
 							cancel();
 						} else {
-							notifyPlayerWithMessage(player, hubPvPPlusInstance, "lang.pvp-enabling", countdown);
+							notifyPlayerWithMessage(player, hubPvPPlusInstance, "messages.pvp-activating", countdown);
 							playSoundIfEnabled(player, hubPvPPlusInstance, "minecraft:block.note_block.bass");
 						}
 					}
@@ -79,7 +79,7 @@ public class ItemSlotChangeListener implements Listener {
 			pvpManager.setPlayerState(player, PvPState.DISABLING);
 
 			BukkitRunnable disableTask = new BukkitRunnable() {
-				int countdown = hubPvPPlusInstance.getConfig().getInt("disable-cooldown") + 1;
+				int countdown = hubPvPPlusInstance.getConfig().getInt("pvp-disable-delay");
 
 				public void run() {
 					countdown--;
@@ -93,7 +93,7 @@ public class ItemSlotChangeListener implements Listener {
 						pvpManager.removeTimer(player);
 						cancel();
 					} else {
-						notifyPlayerWithMessage(player, hubPvPPlusInstance, "lang.pvp-disabling", countdown);
+						notifyPlayerWithMessage(player, hubPvPPlusInstance, "messages.pvp-deactivating", countdown);
 						playSoundIfEnabled(player, hubPvPPlusInstance, "minecraft:block.note_block.bass");
 					}
 				}
@@ -107,7 +107,7 @@ public class ItemSlotChangeListener implements Listener {
 	}
 
 	private void playSoundIfEnabled(Player player, HubPvPPlus instance, String sound) {
-		if (instance.getConfig().getBoolean("sound-effects")) {
+		if (instance.getConfig().getBoolean("enable-sound-effects")) {
 			player.playSound(player.getLocation(), sound, 1.0f, 1.0f);
 		}
 	}

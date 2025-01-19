@@ -1,4 +1,4 @@
-package com.jay.kanaiya.HubPvPPlus.PvPHandler;
+package com.jay.kanhaiya.hubpvpplus.PvPHandler;
 
 public enum PvPState {
 	ON,

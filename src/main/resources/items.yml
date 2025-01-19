@@ -1,25 +1,49 @@
-items:
+#########################################################################################
+#                                                                                       #
+# HubPvPPlus, a free resource by Swagger Studio @                                     #
+#                                                                                       #
+# Support: https://minecraftinfinity.com/discord                                        #
+# Tutorial: Coming very Soon at YT https://bit.ly/kanhaiyaswagger                       #
+# sponsored by: https://swagger.cloud/ BEST Hosting + User Friendly + Trustable         #
+#                                                                                       #
+# You are editing the menu.yml file of HubPvPPlus.                                  #
+#                                                                                       #
+#########################################################################################
+
+#Instruction - use & before typing a hash code like -> &#e310e1
+
+gear:
   weapon:
-    slot: 5 # Sword slot inside the player's inventory
-    material: NETHERITE_SWORD # Item to use as the sword
-    name: '&cPvP Sword &7[Hold To Fight]' # Name of the item
-    lore: # Item description, shown when hovering over in inventory
+    inventory-slot: 5 # Slot number for the weapon in the player's inventory
+    type: DIAMOND_SWORD # The material for the weapon
+    display-name: "&#e310e1PvP Sword &7[Hold To Fight]" # Custom name for the weapon
+    description: # Lore or additional details for the weapon
       - ""
     enchantments:
-      - "sharpness:2"
+      - "sharpness:2" # Adds sharpness to the weapon
+    flags:
+      - "HIDE_ENCHANTS" # Hides enchantments from being visible
+      - "HIDE_ATTRIBUTES" # Hides item attributes
+
+#You use a set custom display name for these items also by using-> display-name: ""
   helmet:
-    material: NETHERITE_HELMET # Item to use as the helmet
+    display-name: "&#e310e1PvP Helmet"
+    type: DIAMOND_HELMET # Material for the helmet
     enchantments:
-      - "protection:3"
+      - "protection:3" # Adds protection enchantment
+      - "fire_protection:3" # Adds protection enchantment
   chestplate:
-    material: NETHERITE_CHESTPLATE # Item to use as the chestplate
+    display-name: "&#e310e1PvP Chestplate"
+    type: DIAMOND_CHESTPLATE # Material for the chestplate
     enchantments:
-      - "protection:3"
+      - "protection:3" # Adds protection enchantment
   leggings:
-    material: NETHERITE_LEGGINGS # Item to use as the leggings
+    display-name: "&#e310e1PvP Leggings"
+    type: DIAMOND_LEGGINGS # Material for the leggings
     enchantments:
-      - "protection:3"
+      - "protection:3" # Adds protection enchantment
   boots:
-    material: NETHERITE_BOOTS # Item to use as the boots
+    display-name: "&#e310e1PvP Boots"
+    type: DIAMOND_BOOTS # Material for the boots
     enchantments:
-      - "protection:3"
+      - "protection:3" # Adds protection enchantment
