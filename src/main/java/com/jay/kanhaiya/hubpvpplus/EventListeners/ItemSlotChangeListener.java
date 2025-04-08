@@ -19,7 +19,7 @@ public class ItemSlotChangeListener implements Listener {
 	public void onSlotChange(PlayerItemHeldEvent e) {
 		Player player = e.getPlayer();
 
-		if (!player.hasPermission("lp.use")) {
+		if (!player.hasPermission("hubpvpplus.use")) {
 			return;
 		}
 		ItemStack newHeldItem =player.getInventory ().getItem (e.getNewSlot ());
@@ -33,8 +33,10 @@ public class ItemSlotChangeListener implements Listener {
 				return;
 			}
 		}
-
-		if (Objects.equals(newHeldItem, pvpManager.getWeapon())) {
+		if (newHeldItem == null || pvpManager.getWeapon () == null) {
+			return;
+		}
+		if (newHeldItem.isSimilar ( pvpManager.getWeapon())) {
 			if (pvpManager.getPlayerState(player) == PvPState.DISABLING) {
 				pvpManager.setPlayerState(player, PvPState.ON);
 			}
@@ -50,7 +52,7 @@ public class ItemSlotChangeListener implements Listener {
 
 					public void run() {
 						countdown--;
-						if (pvpManager.getPlayerState(player) != PvPState.ENABLING || !Objects.requireNonNull(newHeldItem).isSimilar(pvpManager.getWeapon())) {
+						if (pvpManager.getPlayerState(player) != PvPState.ENABLING || !newHeldItem.isSimilar(pvpManager.getWeapon())) {
 							pvpManager.removeTimer(player);
 							cancel();
 						} else if (countdown == 0) {

@@ -123,51 +123,10 @@ public class PvPManager implements Listener {
 			HubPvPPlus.getInstance().getLogger().info("Error applying enchantment: null");
 		}
 
-		// Apply item flags and unbreakable status
-
-		/*List<String> itemFlags = null;
-		 itemFlags = itemsConfig.getStringList("gear." + name + ".flags");
-		if (itemFlags != null) {
-			for (String flag : itemFlags) {
-				try {
-					meta.addItemFlags(ItemFlag.valueOf(flag));
-				} catch (IllegalArgumentException e) {
-					LobbyPvP.getInstance().getLogger().warning("Invalid ItemFlag: " + flag);
-				}
-			}
-		}*/
 		item.setItemMeta(meta);
 		return item;
 	}
-	@EventHandler
-	public void onEntityDeath(EntityDeathEvent event) {
-		if (event.getEntity() instanceof Player) {
-			Player killed = (Player) event.getEntity();
-			Player killer = killed.getKiller();
 
-			if (killer != null && killer.isOnline()) {
-				// Store additional attributes (for example: health-on-kill, respawn-at-spawn)
-				boolean respawnAtSpawn = HubPvPPlus.getInstance().getConfig().getBoolean("respawn-at-spawn", false);
-				if(respawnAtSpawn){
-					killed.teleport(killed.getLocation().getWorld().getSpawnLocation());
-				}
-				// Use these values in gameplay logic later as needed
-				ItemStack helmet = killer.getInventory().getHelmet();
-				if (helmet != null && helmet.isSimilar(this.helmet)) {
-					int healthOnKill = HubPvPPlus.getInstance().getConfig().getInt("health-reward-on-kill", 0);
-					String healthMessage = itemsConfig.getString("messages.health-reward-message", "").replace("%killed%", killed.getName())
-							.replace("%extra%", String.valueOf(healthOnKill));
-
-					double newHealth = Math.min(killer.getHealth() + healthOnKill, killer.getHealth ());
-					killer.setHealth(newHealth);
-
-					if (!healthMessage.isEmpty()) {
-						killer.sendMessage(ConfigColorUtil.colorize(healthMessage));
-					}
-				}
-			}
-		}
-	}
 
 
 

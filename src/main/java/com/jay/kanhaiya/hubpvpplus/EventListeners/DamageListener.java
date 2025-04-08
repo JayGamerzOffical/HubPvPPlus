@@ -4,6 +4,7 @@ import com.jay.kanhaiya.hubpvpplus.DamageIndi.CreateHologramTask;
 import com.jay.kanhaiya.hubpvpplus.DamageIndi.VectorGenerator;
 import com.jay.kanhaiya.hubpvpplus.HubPvPPlus;
 import com.jay.kanhaiya.hubpvpplus.PvPHandler.PvPManager;
+import com.jay.kanhaiya.hubpvpplus.PvPHandler.PvPState;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,45 +22,42 @@ public class DamageListener implements Listener {
 
 
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void dfgsdfghj(PlayerItemDamageEvent event) {
 		Player player = event.getPlayer ( );
-		if (  player != null){
-			if ( !HubPvPPlus.getInstance().getConfig ().getList ("restricted-worlds").contains (event.getPlayer ().getWorld ().getName ()) && HubPvPPlus.getInstance().getPvpManager ().isInPvP ( event.getPlayer ()) && HubPvPPlus.getInstance ().getPvpManager ().getWeapon ().isSimilar (event.getItem ()))
-			{
-				event.setCancelled (true);
-			}
-		}
+        if ( !HubPvPPlus.getInstance ( ).getConfig ( ).getList ("restricted-worlds").contains (event.getPlayer ( ).getWorld ( ).getName ( )) && HubPvPPlus.getInstance ( ).getPvpManager ( ).getWeapon ( ).isSimilar (event.getItem ( )) ) {
+            event.setCancelled (true);
+        }
 
-	}
+    }
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+/*	@EventHandler(priority = EventPriority.MONITOR)
 	public void dfgsdfghj(EntityDamageEvent event) {
 		if ( event.getEntity () instanceof Player ){
-			if ( event.isCancelled () && !HubPvPPlus.getInstance().getConfig ().getList ("restricted-worlds").contains (event.getEntity ().getWorld ().getName ()) && HubPvPPlus.getInstance().getPvpManager ().isInPvP (((Player) event.getEntity ()).getPlayer ()) &&  ((Player) event.getEntity()).getPlayer().getInventory ().contains (HubPvPPlus.getInstance().getPvpManager ().getWeapon ()) ){
+			if ( event.isCancelled () && !HubPvPPlus.getInstance().getConfig ().getList ("restricted-worlds").contains (event.getEntity ().getWorld ().getName ()) && HubPvPPlus.getInstance().getPvpManager ().isInPvP (((Player) event.getEntity ()).getPlayer ()) && HubPvPPlus.getInstance().getPvpManager ().isInPvP (((Player) event.getEntity ()).getPlayer ()) &&  ((Player) event.getEntity()).getPlayer().getInventory ().contains (HubPvPPlus.getInstance().getPvpManager ().getWeapon ()) ){
 				event.setCancelled (false);
 			}
 		}
-	}
-	@EventHandler(priority = EventPriority.HIGHEST)
+	}*/
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void enityDAMGEEvent(EntityDamageByEntityEvent event) {
-		if ( event.getDamager () == null || event.getEntity ()== null )return;
-		if ( !(event.getDamager () instanceof Player) || !(event.getEntity () instanceof Player)  )return;
+        if ( !(event.getDamager () instanceof Player) || !(event.getEntity () instanceof Player)  )return;
 
 		Player attacker = (Player) event.getDamager ();
 		Player victim = (Player) event.getEntity ();
 
-		if ( event.isCancelled () && !HubPvPPlus.getInstance().getConfig ().getList ("restricted-worlds").contains (attacker.getWorld ().getName ()) && HubPvPPlus.getInstance().getPvpManager ().isInPvP (attacker) && HubPvPPlus.getInstance().getPvpManager ().isInPvP (victim) &&((Player) event.getEntity()).getPlayer().getInventory ().contains (HubPvPPlus.getInstance().getPvpManager ().getWeapon ())){
+		if (event.isCancelled () &&  !HubPvPPlus.getInstance().getConfig ().getList ("restricted-worlds").contains (attacker.getWorld ().getName ()) && HubPvPPlus.getInstance().getPvpManager ().isInPvP (attacker) && HubPvPPlus.getInstance().getPvpManager ().isInPvP (victim) &&((Player) event.getEntity()).getPlayer().getInventory ().contains (HubPvPPlus.getInstance().getPvpManager ().getWeapon ())){
 		event.setCancelled (false);
 			VectorGenerator vectorGenerator = new VectorGenerator ();
 			CreateHologramTask createHologramTask = new CreateHologramTask (HubPvPPlus.getInstance(), vectorGenerator, event, (Player) event.getDamager(), HubPvPPlus.getInstance().hologramManager);
 			createHologramTask.run();
-		}else if ( !HubPvPPlus.getInstance().getConfig ().getList ("restricted-worlds").contains (attacker.getWorld ().getName ()) && HubPvPPlus.getInstance().getPvpManager ().isInPvP (attacker) && HubPvPPlus.getInstance().getPvpManager ().isInPvP (victim) &&((Player) event.getEntity()).getPlayer().getInventory ().contains (HubPvPPlus.getInstance().getPvpManager ().getWeapon ()) ){
+		}else if ( !HubPvPPlus.getInstance().getConfig ().getList ("restricted-worlds").contains (attacker.getWorld ().getName ()) && HubPvPPlus.getInstance().getPvpManager ().isInPvP (attacker) && HubPvPPlus.getInstance().getPvpManager ().isInPvP (victim) &&((Player) event.getEntity()).getPlayer().getInventory ().getItemInMainHand ().isSimilar (HubPvPPlus.getInstance().getPvpManager ().getWeapon ()) ){
 			VectorGenerator vectorGenerator = new VectorGenerator ();
 			CreateHologramTask createHologramTask = new CreateHologramTask (HubPvPPlus.getInstance(), vectorGenerator, event, (Player) event.getDamager(), HubPvPPlus.getInstance().hologramManager);
 			createHologramTask.run();
 		}
-		if ( !HubPvPPlus.getInstance().getPvpManager ().isInPvP (attacker) &&  !HubPvPPlus.getInstance().getConfig ().getList ("restricted-worlds").contains (attacker.getWorld ().getName ()) ){
+		if ( !(HubPvPPlus.getInstance().getPvpManager ().getPlayerState (attacker) == PvPState.ON && HubPvPPlus.getInstance().getPvpManager ().getPlayerState (victim) == PvPState.ON) &&  !HubPvPPlus.getInstance().getConfig ().getList ("restricted-worlds").contains (attacker.getWorld ().getName ()) ){
+			if ( HubPvPPlus.getInstance ().getPvpManager ().getPlayerState (attacker) == PvPState.DISABLING || HubPvPPlus.getInstance ().getPvpManager ().getPlayerState (victim) == PvPState.DISABLING) return;
 			event.setCancelled (true);
 		}
 	}
@@ -69,18 +67,19 @@ public class DamageListener implements Listener {
 			event.setCancelled (true);
 		}
 	}*/
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerChangedWorld(PlayerChangedWorldEvent event) {
 		Player player = event.getPlayer();
 		HubPvPPlus instance = HubPvPPlus.getInstance();
 		World newWorld = player.getLocation().getWorld();
 		PvPManager pvpManager = instance.getPvpManager();
-		if (instance.getConfig().getStringList("restricted-worlds").contains(Objects.requireNonNull(newWorld).getName()) || newWorld.equals ("world")) {
+		if (instance.getConfig().getStringList("restricted-worlds").contains(Objects.requireNonNull(newWorld).getName()) ) {
 			removeWeaponsFromInventory(player,pvpManager.getWeapon());
 		}
 	}
 
 	private void removeWeaponsFromInventory(Player player, ItemStack is) {
-				player.getInventory().remove(is);}
+				player.getInventory().remove(is);
+	}
 
 }

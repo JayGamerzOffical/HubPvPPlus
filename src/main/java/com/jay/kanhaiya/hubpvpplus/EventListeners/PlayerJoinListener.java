@@ -7,6 +7,7 @@ import com.jay.kanhaiya.hubpvpplus.PvPHandler.PvPManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -14,6 +15,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
 
@@ -28,25 +30,49 @@ HubPvPPlus lobbyPvP;
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         PvPManager pvPManager = HubPvPPlus.getInstance().getPvpManager();
-        if ( !HubPvPPlus.getInstance().getConfig ().getList ("restricted-worlds").contains (p.getWorld ().getName ())&& !p.getWorld ( ).getPVP ( ) ) {
+        if ( !HubPvPPlus.getInstance().getConfig ().getStringList ("restricted-worlds").contains (p.getWorld ().getName ())&& !p.getWorld ( ).getPVP ( ) ) {
             p.getWorld ( ).setPVP (true);
             pvPManager.giveWeapon (p);
-        }else{
+            new BukkitRunnable (){
+                @Override
+                public void run() {
+                    pvPManager.giveWeapon (p);
+                }
+            }.runTaskLater (lobbyPvP,100);
+        }else if (  !HubPvPPlus.getInstance().getConfig ().getStringList ("restricted-worlds").contains (p.getWorld ().getName ())){
             pvPManager.giveWeapon (p);
+            new BukkitRunnable (){
+                @Override
+                public void run() {
+                    pvPManager.giveWeapon (p);
+                }
+            }.runTaskLater (lobbyPvP,100);
         }
-
-
-
         pvPManager.setPlayerState(p, PvPState.OFF);
 
         //pvPManager.getOldPlayerDataList().add(new OldPlayerData(p, p.getInventory().getArmorContents(), p.getAllowFlight()));
     }
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerRespawnEvent e) {
         Player p = e.getPlayer();
         PvPManager pvPManager = HubPvPPlus.getInstance().getPvpManager();
-        if ( !HubPvPPlus.getInstance().getConfig ().getList ("restricted-worlds").contains (p.getWorld ().getName ()) ) {
+        if ( !HubPvPPlus.getInstance().getConfig ().getStringList ("restricted-worlds").contains (p.getWorld ().getName ())&& !p.getWorld ( ).getPVP ( ) ) {
+            p.getWorld ( ).setPVP (true);
             pvPManager.giveWeapon (p);
+            new BukkitRunnable (){
+                @Override
+                public void run() {
+                    pvPManager.giveWeapon (p);
+                }
+            }.runTaskLater (lobbyPvP,100);
+        }else if (  !HubPvPPlus.getInstance().getConfig ().getStringList ("restricted-worlds").contains (p.getWorld ().getName ())){
+            pvPManager.giveWeapon (p);
+            new BukkitRunnable (){
+                @Override
+                public void run() {
+                    pvPManager.giveWeapon (p);
+                }
+            }.runTaskLater (lobbyPvP,100);
         }
 
        // pvPManager.getOldPlayerDataList().add(new OldPlayerData(p, p.getInventory().getArmorContents(), p.getAllowFlight()));
